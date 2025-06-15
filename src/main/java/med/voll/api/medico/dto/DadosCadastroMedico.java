@@ -2,7 +2,7 @@ package med.voll.api.medico.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import med.voll.api.domain.endereco.dto.DadosEndereco;
+import med.voll.api.endereco.dto.DadosEndereco;
 import med.voll.api.medico.enums.Especialidade;
 
 public record DadosCadastroMedico(

@@ -1,6 +1,6 @@
 package med.voll.api.medico.dto;
 
-import med.voll.api.domain.endereco.entity.Endereco;
+import med.voll.api.endereco.entity.Endereco;
 import med.voll.api.medico.entity.Medico;
 import med.voll.api.medico.enums.Especialidade;
 

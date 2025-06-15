@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import med.voll.api.domain.endereco.dto.DadosEndereco;
+import med.voll.api.endereco.dto.DadosEndereco;
 
 import java.time.LocalDate;
 
