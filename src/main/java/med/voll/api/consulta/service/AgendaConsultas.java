@@ -1,14 +1,18 @@
 package med.voll.api.consulta.service;
 
 import med.voll.api.consulta.dto.DadosAgendamento;
+import med.voll.api.consulta.dto.DetalhesAgendamentoConsulta;
 import med.voll.api.consulta.entity.Consulta;
 import med.voll.api.consulta.repository.ConsultaRepository;
+import med.voll.api.consulta.validations.ValidaAgendamentoConsultas;
 import med.voll.api.infra.exception.ValidacaoException;
 import med.voll.api.medico.entity.Medico;
 import med.voll.api.medico.repository.MedicoRepository;
 import med.voll.api.paciente.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AgendaConsultas {
@@ -19,20 +23,31 @@ public class AgendaConsultas {
     private MedicoRepository medicoRepository;
     @Autowired
     private PacienteRepository pacienteRepository;
+    @Autowired
+    private List<ValidaAgendamentoConsultas> validadores;
 
-    public void agendar(DadosAgendamento dadosAgendamento) {
+    public DetalhesAgendamentoConsulta agendar(DadosAgendamento dadosAgendamento) {
         if (dadosAgendamento.idMedico() != null && !medicoRepository.existsById(dadosAgendamento.idMedico())) {
-            throw new ValidacaoException("id do médico não encontrado!");
+            throw new ValidacaoException("Id do médico não encontrado!");
         }
 
         if (!pacienteRepository.existsById(dadosAgendamento.idPaciente())) {
-            throw new ValidacaoException("id do paciente não encontrado!");
+            throw new ValidacaoException("Id do paciente não encontrado!");
         }
+
+        validadores.forEach(validador -> validador.validar(dadosAgendamento));
 
         var medico = selecionarMedico(dadosAgendamento);
         var paciente = pacienteRepository.getReferenceById(dadosAgendamento.idPaciente());
-        var consulta = new Consulta(null, medico, paciente, null);
+
+        if (medico == null) {
+            throw new ValidacaoException("Não existe médico disponível nessa data");
+        }
+
+        var consulta = new Consulta(null, medico, paciente, dadosAgendamento.data());
         consultaRepository.save(consulta);
+
+        return new DetalhesAgendamentoConsulta(consulta);
     }
 
     private Medico selecionarMedico(DadosAgendamento dadosAgendamento) {

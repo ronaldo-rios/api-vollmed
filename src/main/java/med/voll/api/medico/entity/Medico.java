@@ -31,8 +31,8 @@ public class Medico {
     @Embedded
     private Endereco endereco;
 
-    private static final Integer ATIVO = 1;
-    private static final Integer INATIVO = 0;
+    public static final Integer ATIVO = 1;
+    public static final Integer INATIVO = 0;
 
     public Medico(DadosCadastroMedico dados) {
         this.nome = dados.nome();

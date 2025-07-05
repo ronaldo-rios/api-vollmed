@@ -23,4 +23,9 @@ public class ExceptionErrors {
             errors.stream().map(DadosErrors::new).toList()
         );
     }
+
+    @ExceptionHandler(ValidacaoException.class)
+    ResponseEntity throwErrorBusinessRole(ValidacaoException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
 }
