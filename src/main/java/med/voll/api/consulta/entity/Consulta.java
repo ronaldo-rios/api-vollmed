@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
+import med.voll.api.consulta.enums.StatusConsulta;
 import med.voll.api.medico.entity.Medico;
 import med.voll.api.paciente.entity.Paciente;
 
@@ -28,4 +29,10 @@ public class Consulta {
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
     private LocalDateTime data;
+    @Enumerated(EnumType.STRING)
+    private StatusConsulta status;
+
+    public void cancelarConsulta() {
+        this.status = StatusConsulta.CANCELADA;
+    }
 }

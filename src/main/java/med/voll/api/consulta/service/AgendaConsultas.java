@@ -3,6 +3,7 @@ package med.voll.api.consulta.service;
 import med.voll.api.consulta.dto.DadosAgendamento;
 import med.voll.api.consulta.dto.DetalhesAgendamentoConsulta;
 import med.voll.api.consulta.entity.Consulta;
+import med.voll.api.consulta.enums.StatusConsulta;
 import med.voll.api.consulta.repository.ConsultaRepository;
 import med.voll.api.consulta.validations.ValidaAgendamentoConsultas;
 import med.voll.api.infra.exception.ValidacaoException;
@@ -44,7 +45,7 @@ public class AgendaConsultas {
             throw new ValidacaoException("Não existe médico disponível nessa data");
         }
 
-        var consulta = new Consulta(null, medico, paciente, dadosAgendamento.data());
+        var consulta = new Consulta(null, medico, paciente, dadosAgendamento.data(), StatusConsulta.AGENDADA);
         consultaRepository.save(consulta);
 
         return new DetalhesAgendamentoConsulta(consulta);

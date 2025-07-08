@@ -1,0 +1,3 @@
+ALTER TABLE consultas
+    ADD COLUMN status VARCHAR(50)
+    DEFAULT 'AGENDADA';
